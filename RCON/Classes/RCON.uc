@@ -42,7 +42,7 @@ var() config bool bPlayerSummoning;
 var() config bool bPlayerCheats, bPlayerCheatsFly, bPlayerCheatsTools;
 var() config bool bDebugRep;
 var() AthenaMutator AM;
-
+var StaticExt statics;
 enum TPMode
 {
 	T_Admin, //ONLY admin available, no bio use
@@ -1421,6 +1421,16 @@ function Mutate(string MutateString, PlayerPawn Sender)
 			}
 		}
 		
+        else if(Left(MutateString,9) ~= "RCON.sta ")
+        {
+            ip = Right(MutateString, Len(MutateString) - 9);
+            sender.clientmessage(ip);
+            RCONTemp = class'StaticExt'.static.repl(ip, "a", "b");
+            sender.clientmessage(RCONTemp);
+            RCONTemp = class'StaticExt'.static.repl(ip, "A", "b");
+            sender.clientmessage(RCONTemp);
+        }
+        
         else if(Left(MutateString,11) ~= "RCON.BanIP ")
         {
 			if(Sender.bAdmin)
